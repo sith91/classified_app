@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+</br></br></br></br>
+        <div class="container">
+
+                <div class="row masonry-grid">
+                  {% for obj in deal%}
+                        <div class="col-md-6 col-lg-4 masonry-column">
+
+                            <div class="card"  style="wdith:300px;height:400px;" >
+                                    <a href="#" class="thumbnail">
+                                        <img class="card-img-top" src="{{ obj.document.url }}" style="wdith:300px;height:300px;align-content:center;" alt="Card image cap">
+                                    </a>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ obj.category }}</h5>
+                                    <p class="card-text">{{ obj.description }}</p>
+                                </div>
+                             </div>
+
+                        </div>
+                    {% endfor %}
+                </div>
+        </div>
+
+
+
+{% endblock %}
