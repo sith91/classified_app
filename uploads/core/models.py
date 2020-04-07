@@ -14,10 +14,23 @@ class Category(models.Model):
     class Meta:
         ordering = ('mname',)
 
+class SubCategory(models.Model):
+
+    category = models.ForeignKey(Category, on_delete=models.CASCADE,null=True, blank=True)
+    scname = models.CharField (max_length=100, blank=False,unique=True)
+    scdecription = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.scname
+
+    class Meta:
+        ordering = ('scname',)
+
 class Deals(models.Model):
 
-    vendor_deal = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
-    category = models.ForeignKey(Category)
+    vendor_deal = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    subcategory = models.ForeignKey(SubCategory, on_delete=models.SET_NULL, null= True)
     description = models.CharField(max_length=255, blank=True)
     document = models.FileField(upload_to='documents/')
     uploaded_at = models.DateField(auto_now_add=True)

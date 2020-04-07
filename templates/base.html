@@ -1,4 +1,5 @@
 {% load static%}
+{% load clever_selects_extras%}
 <!DOCTYPE html>
 <html>
   <head>
@@ -9,6 +10,8 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css">
       <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+      <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+      <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
   </head>
  <script>
 
@@ -54,9 +57,9 @@ $(function () {
                       <li class="nav-item active">
                         <a class="nav-link" href="{% url 'deals:model_form_upload' %}"> Upload <span class="sr-only">(current)</span></a>
                           </li>
-                        {% if user.is_authenticated %}
+                        {% if request.user.is_authenticated %}
                       <li class="nav-item">
-                        <a class="nav-link" href="#">{{ user.username }}!</a>
+                        <a class="nav-link" href="{% url 'users:profile' user.username %}">{{ request.user.username }}</a>
                       </li>
                         <li class="nav-item">
                         <a class="nav-link" href="{% url 'users:logout' %}">Logout</a>
@@ -163,17 +166,22 @@ $(function () {
     <hr>
 
     <!--Call to action-->
-    <div class="text-center py-3" id="main_footer_reg">
-        <ul class="list-unstyled list-inline mb-0">
-            <li class="list-inline-item">
-                <h5 class="mb-1">Register for free</h5>
-            </li>
-            <li class="list-inline-item">
-                <a href="#!" class="btn btn-danger btn-rounded">Sign up!</a>
-            </li>
-        </ul>
-    </div>
+      {% if user.is_authenticated %}
+          <p></p>
+
+          {% else %}
+            <div class="text-center py-3" id="main_footer_reg">
+                <ul class="list-unstyled list-inline mb-0">
+                    <li class="list-inline-item">
+                        <h5 class="mb-1">Register for free</h5>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="{% url 'users:signup'%}" class="btn btn-danger btn-rounded">Sign up!</a>
+                    </li>
+                </ul>
+            </div>
     <!--/.Call to action-->
+    {% endif %}
 
     <hr>
 
@@ -219,4 +227,5 @@ $(function () {
 </footer>
 <!--/.Footer-->
   </body>
+{% clever_selects_js_import %}
 </html>

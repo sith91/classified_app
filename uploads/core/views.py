@@ -1,10 +1,9 @@
-from django.shortcuts import render, redirect, reverse
-from django.conf import settings
-from django.core.files.storage import FileSystemStorage
+from clever_selects.views import ChainedSelectChoicesView
+from django.shortcuts import render, redirect
 from django.views.generic import CreateView
 from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
-from uploads.core.models import Deals
+from uploads.core.models import Deals, SubCategory
 from uploads.core.forms import DocumentForm
 from uploads.core.serializers import DealSerializer
 
@@ -21,7 +20,9 @@ def home(request):
         'deal': deal
     })
 
-
+class AjaxChainedView(ChainedSelectChoicesView):
+    def get_child_set(self):
+        return SubCategory.object.filter(catego=self.parent_value)
 
 """def simple_upload(request):
     if request.method == 'POST' and request.FILES['myfile']:
@@ -40,7 +41,9 @@ def model_form_upload(request):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
-                form.save()
+                instance = form.save(commit= False)
+                instance.vendor_deal= request.user
+                instance.save()
                 return redirect('http://127.0.0.1:8000/')
     else:
         form = DocumentForm()
