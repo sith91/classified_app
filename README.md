@@ -1,6 +1,4 @@
-# Simple File Upload Example
-
-Example used in the blog post [How to Upload Files With Django](https://simpleisbetterthancomplex.com/tutorial/2016/08/01/how-to-upload-files-with-django.html)
+# Simple Classified Ads App
 
 ## Running Locally
 
